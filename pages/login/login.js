@@ -6,7 +6,7 @@
                  res = JSON.parse(text);               
                     if(res.status==='ok')
                     {                                                        
-                     window.location = "/ready/ready.html";                  
+                     window.location = "/ready/";                  
                     }
             });    
      }
