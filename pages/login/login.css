@@ -1,0 +1,30 @@
+ .content
+            {
+                position: absolute;
+                text-align: center;
+                display: block;
+                margin: auto;
+                width: 100%;
+                height: 100%;
+                background-color: #101041;
+            }              
+            .title
+            {
+                font-size: 80px;
+                color: #1090b2;
+                margin:auto;
+                box-sizing: border-box;
+                padding: 4% 0% 12% 0%;
+            }
+            .registration, .login
+            {
+                width: 300px;
+                height: 50px;
+                margin: 2% auto;
+                display: block;
+                font-size:20px;
+            }
+             .login
+            {
+                text-align: center;               
+            }     
