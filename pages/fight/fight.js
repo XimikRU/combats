@@ -1,10 +1,11 @@
 function sendMoveRequest(val) {
     apiRequest('turn', {method: 'post', body: val})
         .then(text => {
-            console.log(text);
             res = JSON.parse(text);
             if (res.status === 'ok') {
-                //healthChange(res.);
+                console.log(res);
+                health_change(1, res.combat.enemy.health);
+
             }
             else {
                 console.error(res.message);
@@ -43,8 +44,8 @@ function makeMove() {
     apiRequest('fight', {method: 'post', body: 'user_id=KUpXGc'}).then(text=>console.log(text));
     apiRequest('login', {method: 'post', body: 'user_id=WOBqSz'}).then(text=>console.log(text));
     apiRequest('fight', {method: 'post', body: 'user_id=WOBqSz'}).then(text=>console.log(text));
-    combatid = 'DplctY';
-    //getCombatObject().combat_id
+    // combatid = 'DplctY';
+    combatid = getCombatObject().combat_id;
     sendMoveRequest(`user_id=${getUser().token}&combat_id=${combatid}&turn=${turn}`);
 }
 
