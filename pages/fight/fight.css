@@ -1,0 +1,36 @@
+.player2 {
+    background-color: red;
+    width: 600px;
+    height: 500px;
+    margin-left: 600px;
+    margin-top: -525px;
+}
+
+.player1 {
+    background-color: blue;
+    width: 600px;
+    height: 500px;
+}
+
+.radio_buttons {
+    margin-left: 300px;
+    margin-top: -300px;
+}
+
+.login_player2, .login_player1, .health_player2, .health_player1, .radio_text {
+    font-size: 25px;
+}
+
+.bump_button {
+    font-size: 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 7%;
+}
+
+.progress_player2, .progress_player1 {
+    background-color: #f3f3f3;
+    border: 0;
+    height: 18px;
+    border-radius: 9px;
+}
