@@ -1,6 +1,8 @@
 ﻿<html>
 <head>
     <link rel="stylesheet" href="fight.css">
+    <script src="/common/common.js"></script>
+    <script src="fight.js"></script>
 	<meta charset="UTF-8">
 </head>
 <body>
@@ -14,10 +16,10 @@
             <p class="health_player1">Здоровье  <progress class="progress_player1" max="30" value="25"> </progress></p>
             <img src="photo.jpg" class="photo_player1">
             <div class="radio_buttons">
-                <p class="radio_text"><input name="body_player" type="radio" value="head">Голова + Грудь</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="chest">Грудь + Пояс</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="belt">Пояс + Ноги</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="foot">Ноги + Голова</p>
+                <p class="radio_text headChest"><input name="body_player" type="radio" value="head">Голова + Грудь</p>
+                <p class="radio_text cheastTorso"><input name="body_player" type="radio" value="chest">Грудь + Пояс</p>
+                <p class="radio_text torsoLeg"><input name="body_player" type="radio" value="belt">Пояс + Ноги</p>
+                <p class="radio_text legHead"><input name="body_player" type="radio" value="foot">Ноги + Голова</p>
             </div>
         </div>
 
@@ -28,16 +30,16 @@
 
             <img src="photo.jpg" class="photo_player2">
             <div class="radio_buttons">
-                <p class="radio_text"><input name="body_player" type="radio" value="head">Голова</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="chest">Грудь</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="belt">Пояс</p>
-                <p class="radio_text"><input name="body_player" type="radio" value="foot">Ноги</p>
+                <p class="radio_text head"><input name="body_player" type="radio" value="head">Голова</p>
+                <p class="radio_text chest"><input name="body_player" type="radio" value="chest">Грудь</p>
+                <p class="radio_text torso"><input name="body_player" type="radio" value="belt">Пояс</p>
+                <p class="radio_text leg"><input name="body_player" type="radio" value="foot">Ноги</p>
             </div>
         </div>
     </div>
 
     <div class="bump">
-        <button class="bump_button">Ударить</button>
+        <button class="bump_button" onclick="makeMove()">Ударить</button>
     </div>
 
 </body>
