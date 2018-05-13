@@ -22,6 +22,21 @@
         return {name: localStorage.getItem("username"), token: localStorage.getItem("usertoken")};
     }
 
+    function setCombatObject(combat){
+        localStorage.setItem('combat', JSON.stringify(combat));
+        //localStorage.setItem('combat_id', combat.combat_id);
+    }
+
+    function getCombatObject(){
+        //return combatObj = localStorage.getItem('combat_id');
+        var combatObj = localStorage.getItem('combat');
+        if(combatObj)
+            return JSON.parse(combatObj);
+        else
+            return null;
+        
+    }
+
     function removeUserId() {
         localStorage.removeItem('user');
     }
@@ -29,6 +44,8 @@
     window.apiRequest = apiRequest;
     window.setUserId = setUserId;
     window.getUser = getUser;
+    window.setCombatObject = setCombatObject;
+    window.getCombatObject = getCombatObject;
 })();
 
 
