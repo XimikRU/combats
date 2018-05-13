@@ -1,6 +1,7 @@
 function sendMoveRequest(val) {
     apiRequest('turn', {method: 'post', body: val})
         .then(text => {
+            console.log(text);
             res = JSON.parse(text);
             if (res.status === 'ok') {
                 //healthChange(res.);
@@ -35,13 +36,16 @@ function makeMove() {
     else if (torsoLeg.checked) block = [3,4];
     else block=[4,1];
 
-    turn = JSON.stringify({"hit": hit, "blocks": block});
+    var turn = JSON.stringify({"hit": hit, "blocks": block});
+    console.log(turn);
 
     apiRequest('login', {method: 'post', body: 'user_id=KUpXGc'}).then(text=>console.log(text));
     apiRequest('fight', {method: 'post', body: 'user_id=KUpXGc'}).then(text=>console.log(text));
+    apiRequest('login', {method: 'post', body: 'user_id=WOBqSz'}).then(text=>console.log(text));
+    apiRequest('fight', {method: 'post', body: 'user_id=WOBqSz'}).then(text=>console.log(text));
     combatid = 'DplctY';
     //getCombatObject().combat_id
-    sendMoveRequest('user_id=${getUser().token}&combat_id=${combatid}&turn=${turn}');
+    sendMoveRequest(`user_id=${getUser().token}&combat_id=${combatid}&turn=${turn}`);
 }
 
 
