@@ -2,7 +2,7 @@
     function apiRequest(request, {
         method,
         body
-    }) {
+    } = {}) {
         return fetch(`http://localhost:3333${request}`, {
             method,
             headers: {
