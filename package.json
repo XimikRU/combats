@@ -1,0 +1,23 @@
+{
+  "name": "combats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XimikRU/combats.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XimikRU/combats/issues"
+  },
+  "homepage": "https://github.com/XimikRU/combats#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
