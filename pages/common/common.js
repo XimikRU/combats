@@ -1,4 +1,4 @@
-(function(){
+(function () {
     function apiRequest(request, {
         method,
         body
@@ -13,28 +13,30 @@
     }
 
     function setUserId(val) {
-        localStorage.setItem('username', val.name);
+        localStorage.setItem('username', val.username);
         localStorage.setItem('usertoken', val.token);
-        // localStorage.setItem('user', {name:"newurnew", token:"KUpXGc"})
     }
 
     function getUser() {
-        return {name: localStorage.getItem("username"), token: localStorage.getItem("usertoken")};
+        return {
+            username: localStorage.getItem("username"),
+            token: localStorage.getItem("usertoken")
+        };
     }
 
-    function setCombatObject(combat){
+    function setCombatObject(combat) {
         localStorage.setItem('combat', JSON.stringify(combat));
         //localStorage.setItem('combat_id', combat.combat_id);
     }
 
-    function getCombatObject(){
+    function getCombatObject() {
         //return combatObj = localStorage.getItem('combat_id');
         var combatObj = localStorage.getItem('combat');
-        if(combatObj)
+        if (combatObj)
             return JSON.parse(combatObj);
         else
             return null;
-        
+
     }
 
     function removeUserId() {
@@ -47,6 +49,3 @@
     window.setCombatObject = setCombatObject;
     window.getCombatObject = getCombatObject;
 })();
-
-
-// setUserId({name: 'user', token:'tolen'});
