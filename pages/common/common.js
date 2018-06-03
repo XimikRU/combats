@@ -1,10 +1,20 @@
 (function() {
+    function handleErrors(response) {
+        if (response.status === 403) {
+            window.location = '/login/';
+        }
+        if (response.status >= 400)
+            return Promise.reject(response);
+        else return response;
+    }
+
     function apiRequest(request, {method, body} = {}) {
         return fetch(`http://localhost:3333${request}`, {
             method,
             headers: {'content-type': 'application/x-www-form-urlencoded'},
             body
         })
+        .then(handleErrors)
         .then(response => response.text());
     }
 
@@ -53,7 +63,7 @@
                         } else {
                             reject('WhoAmi.status != OK; ');
                         }
-                    })  
+                    })
                     .catch(reason => {
                         reject('whoAmiAPI req error; ' + reason);
                     });
