@@ -2,8 +2,17 @@
     background-color: red;
     width: 600px;
     height: 500px;
-    margin-left: 600px;
-    margin-top: -525px;
+    /*margin-left: 600px;*/
+    /*margin-top: -525px;*/
+}
+body{
+    margin:5% 5% 5% 5%;
+}
+.player-content{
+    margin-left:10%;
+    margin-right:10%;
+    display: flex;
+    flex-direction: row;
 }
 
 .player1 {
@@ -26,6 +35,8 @@
     background-color: #4CAF50;
     color: white;
     border-radius: 7%;
+    margin-left:40%;
+    margin-right:50% ;
 }
 
 .progress_player2, .progress_player1 {
@@ -33,4 +44,18 @@
     border: 0;
     height: 18px;
     border-radius: 9px;
+}
+.name-hp{
+    display: flex;
+    justify-content: space-around;
+}
+.health{
+    display: inline;
+}
+.player_name{
+    display: inline;
+}
+.bump{
+    display: flex;
+    justify-content: center;
 }
