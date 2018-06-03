@@ -1,30 +1,84 @@
- window.addEventListener("load", () => {
-     var old = getUser();
-     if (old) {
-         apiRequest(`/whoami?user_id=${old.token}`)
-             .then(text => {
-                 res = JSON.parse(text);
-                 if (res.status === 'ok') {
-                     window.location = "/ready/";
-                 }
-             });
-     }
+function registerUser() {
+    return new Promise((resolve, reject) => {
+        var username = document.querySelector('.inp-username').value;
+        var password = document.querySelector('.inp-password').value;
+        apiRequest('/register', {
+                method: 'POST',
+                body: `username=${username}&password=${password}`
+            })
+            .then(apiAnswer => {
+                var parsedAnswer = JSON.parse(apiAnswer);
+                console.log('Reg:');console.log(parsedAnswer);
+                if (parsedAnswer.status === 'ok') {
+                    var userObj = parsedAnswer.user;
+                    if(setUser(userObj)){
+                        resolve(parsedAnswer);
+                    }
+                    else{
+                        reject('Cant setUser(); ')
+                    }
+                }
+                else{
+                    reject('parsedAnswerRegister.status != OK; ');
+                }
+            })
+            .catch(reason => {
+                reject('RegisterAPI request error: ' + reason);
+            });
+    });
+}
 
-     document.querySelector('.btn-login').onclick = function () {
-         var username = document.querySelector('.inp-username').value;
-         apiRequest('/register', {
-                 method: 'POST',
-                 body: `username=${username}`
-             })
-             .then(text => {
-                 var res = JSON.parse(text);
-                 if (res.status === 'ok') {
-                     setUserId({
-                         username: res.user.username,
-                         token: res.user.id
-                     });
-                     window.location = "/ready/";
-                 }
-             });
-     }
- })
+function loginUser() {
+    return new Promise((resolve, reject) => {
+        var username = document.querySelector('.inp-username').value;
+        var password = document.querySelector('.inp-password').value;
+        apiRequest('/login', {
+                method: 'POST',
+                body: `username=${username}&password=${password}`
+            })
+            .then(apiAnswer => {
+                var parsedAnswer = JSON.parse(apiAnswer);
+                console.log('login: ');console.log(parsedAnswer);
+                if (parsedAnswer.status === 'ok') {
+                    var userObj = parsedAnswer.user;
+                    if(setUser(userObj)){
+                        resolve(parsedAnswer);
+                    }
+                    else{
+                        reject('Cant setUser(); ');
+                    }
+                }
+                else{
+                    reject('LoginAnswer.status != ok; ');
+                }       
+            })
+            .catch(reason => reject('LoginAPI request error; ' + reason));
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.btn-registr').addEventListener('click', () => {
+        registerUser()
+            .then(result => {
+                loginUser()
+                    .then(result => {alert('reg-login'); window.location = '/ready/';})
+                    .catch(reason => console.log('onclick: ' + reason))
+                }
+            )
+            .catch(reason => {
+                console.log('onclick reg: ' + reason);
+            })
+
+    });
+
+    document.querySelector('.btn-login').addEventListener('click', () => {
+        loginUser()
+            .then(() => {
+                alert('login');
+                window.location = '/ready/';
+            })
+            .catch(reason => console.log('onclick log: ' + reason))
+    });
+});
+
+
