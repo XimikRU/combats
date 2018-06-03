@@ -59,3 +59,10 @@ body{
     display: flex;
     justify-content: center;
 }
+
+
+
+
+
+
+.photo_player2 { transform: scale(-1, 1); }

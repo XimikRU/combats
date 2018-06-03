@@ -1,14 +1,8 @@
 function sendMoveRequest(val) {
-    apiRequest('/turn', {method: 'post', body: val})
+    return apiRequest('/turn', {method: 'post', body: val})
         .then(text => {
             res = JSON.parse(text);
-            if (res.status === 'ok') {
-                console.log(res);
-                health_change(1, res.combat.enemy.health);
-            }
-            else {
-                console.error(res.message);
-            }
+            return res;
         });
 }
 
@@ -27,14 +21,20 @@ function makeMove() {
     var turn = JSON.stringify({"hit": hit, "blocks": block});
     console.log(turn);
 
-    //apiRequest('/login', {method: 'post', body: 'user_id=KUpXGc'}).then(text=>console.log(text));
-
     combatid = getCombatObject().combat.id;
-    sendMoveRequest(`token=${getUser().token}&combat_id=${combatid}&turn=${turn}`);
-}
+    sendMoveRequest(`token=${getUser().token}&combat_id=${combatid}&turn=${turn}`)
+        .then(res => {
+            if (res.status === 'ok') {
+                console.log(res);
+                // health_change(1, res.combat.enemy.health);
+                document.getElementById('health2').textContent = res.combat.enemy.health;
+                document.getElementById('health1').textContent = res.combat.you.health;
+            }
+            else {
+                console.error(res.message);
+            }
+        });
 
-
-window.onload = function () {
 }
 
 function health_change(player, newValue) {
@@ -54,3 +54,22 @@ function end_game() {
     }
     return 0;
 }
+
+
+
+
+
+
+window.addEventListener("DOMContentLoaded", load);
+function load()
+{
+    var login_me = getUser().username;
+    document.getElementById('player_name1').textContent = login_me;
+    var  combat = getCombatObject();
+    if(combat.combat.players)
+    {
+        var login_enemy = getCombatObject().combat.players.find(user => user.username !== login_me).username;
+        document.getElementById('player_name2').textContent = login_enemy;
+    }
+}
+
