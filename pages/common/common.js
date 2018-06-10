@@ -22,20 +22,6 @@
 
 
 
-    function setCombatObject(combatObj) {
-        localStorage.setItem('combat', JSON.stringify(combatObj));
-        return true;
-    }
-
-    function getCombatObject() {
-        var combatObj = localStorage.getItem('combat');
-        if (combatObj)
-            return JSON.parse(combatObj);
-        else
-            return null;
-    }
-
-
     function showProfile(event){
         var user_id = event.target.dataset.user;
         var token = userData.get().token;
@@ -47,7 +33,7 @@
     }
 
     function fillProfile(user, combats) {
-        var vdd = vddPersonal(combats);
+        var vdd = combatsData.vddPersonal(combats);
         document.getElementsByClassName("user_name")[0].innerHTML = "";
         document.querySelector(".victories").innerHTML = "";
         document.getElementsByClassName("battleCount")[0].innerHTML = "";
@@ -75,12 +61,6 @@
         listElement.innerHTML += liUserList.join('');
     }
 
-    function checkCombatStatus(userToken, combatId){
-        return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
-            .then(apiAnswer => { return apiAnswer; })
-            .catch(reason => { console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason); })
-    }
-
     function showMessage(message) {
         var newDiv = document.createElement("P");
         var newContent;
@@ -93,46 +73,13 @@
         document.body.appendChild(newDiv);
     }
 
-    function vddCalculate(combats){
-        var victories = 0, defeats = 0, draws = 0;
-        combats.forEach(combat => {
-            if ((combat.you) && (combat.enemy)){
-                var you = combat.you.health;
-                var enemy = combat.enemy.health;
-
-                you > enemy ? victories++ :
-                    you < enemy ? defeats++ : draws++;
-            }
-        });
-        var vdd = {victories: victories, defeats: defeats, draws: draws};
-        return vdd;
-    }
-
-    function vddPersonal(combats){
-        var victories = 0, defeats = 0, draws = 0;
-        combats.forEach(combat => {
-            var you, enemy;
-            if ((combat.you) && (combat.enemy)){
-                you = combat.you.health;
-                enemy = combat.enemy.health;
-                you > enemy ? victories++ :
-                    you < enemy ? defeats++ : draws++;
-            }
-        });
-        var vdd = {victories: victories, defeats: defeats, draws: draws};
-        return vdd;
-    }
-
     window.handleErrors = handleErrors;
     window.apiRequest = apiRequest;
-    window.setCombatObject = setCombatObject;
-    window.getCombatObject = getCombatObject;
     window.fillProfile = fillProfile;
     window.hideUserProfile = hideUserProfile;
     window.addList = addList;
-    window.checkCombatStatus = checkCombatStatus;
     window.showMessage = showMessage;
     window.showProfile = showProfile;
-    window.vddCalculate = vddCalculate;
-    window.vddPersonal = vddPersonal;
+    // window.vddCalculate = vddCalculate;
+    // window.vddPersonal = vddPersonal;
 })();

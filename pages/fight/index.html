@@ -1,11 +1,15 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
     <link rel="stylesheet" type="text/css" href="/common/common.css">
     <link rel="stylesheet" href="fight.css">
+    <script src="/common/components/combats/CombatsData.js"></script>
+    <script src="/common/components/CombatsInterface/CombatsInterface.js"></script>
     <script src="/common/user-list.js"></script>
     <script src="../common/components/user/user.js"></script>
     <script src="/common/common.js"></script>
     <script src="fight.js"></script>
+
     <meta charset="UTF-8">
 </head>
 
@@ -35,7 +39,7 @@
             <p><input name="body_player" type="radio" value="3,4" class="block">Пояс + Ноги</p>
             <p><input name="body_player" type="radio" value="4,1" class="block">Ноги + Голова</p>
             <div class="bump">
-                <p><button class="bump_1 main-btn" onclick="makeMove()">Действие</button></p>
+                <p><button class="bump_1 main-btn" onclick="combatsInterface.makeMove()">Действие</button></p>
             </div>
         </div>
     </div>
