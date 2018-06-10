@@ -112,7 +112,7 @@ class Chat {
         var timer = setInterval(() => {
             this.getMessages(this.time, JSON.parse(localStorage.user).token);
             this.time = Date.now();
-        }, 5000);
+        }, 1000);
     }
 }
 
