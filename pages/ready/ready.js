@@ -1,5 +1,6 @@
 function currentProfile(localUser){
     return new Promise((resolve, reject) => {
+
         userListData.getUserInfo(localUser.id, localUser.token)
             .then(apiAnswer => {
                     // Подсчет побед/пораж/ничей
@@ -15,6 +16,7 @@ function currentProfile(localUser){
                     <li> Defeats: ${vdd.defeats} </li>
                     <li> Draws: ${vdd.draws} </li>
                     `;
+
                 if(apiAnswer.combats.length > 0)
                     out += `<li>Status: ${apiAnswer.combats[apiAnswer.combats.length-1].status}</li>`;
                 out += `<li onclick="userData.logOut()" style="float:right">Logout </li>`;
@@ -24,13 +26,13 @@ function currentProfile(localUser){
                 reject('/Info req error; ' + reason);
             });
     });
-
 }
 
 window.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.btn-fight').addEventListener('click', () => {
         combatsData.goFight();
     });
+
 
     userListData.getOnline()
         .then(addList);
@@ -52,6 +54,7 @@ window.addEventListener('DOMContentLoaded', function() {
         })
         .catch(reason => {
             alert('No local user' + reason);
+
             userData.logOut();
         })
 });

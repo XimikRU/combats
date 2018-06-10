@@ -73,6 +73,7 @@
         document.body.appendChild(newDiv);
     }
 
+
     window.handleErrors = handleErrors;
     window.apiRequest = apiRequest;
     window.fillProfile = fillProfile;
