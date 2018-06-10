@@ -8,8 +8,8 @@ function turnCreate(){
     var hit = parseInt(document.querySelector('.attack:checked').value);
     var block = document.querySelector('.block:checked').value.split(",");
     block.forEach(function(item, i, arr){
-       item = parseInt(item);
-       console.log(typeof item);
+        item = parseInt(item);
+        console.log(typeof item);
     });
 
     var turnObj = {"hit": hit, "blocks": block};
@@ -19,7 +19,7 @@ function turnCreate(){
     console.log(typeof turn); // str
 
     return turn;
-} 
+}
 
 function consoleCombat(text){
     var console = document.querySelector('.console');
@@ -47,16 +47,16 @@ function buttonDisable(status){
 function makeMove() {
     var turn = turnCreate();
     var combatId = getCombatObject().id;
-    var userToken = getUser().token;
+    var userToken = userData.get().token;
     console.log(turn);
     sendMoveRequest(`token=${userToken}&combat_id=${combatId}&turn=${turn}`)
-        .then(combat => { 
+        .then(combat => {
             console.log(combat);
             if(combat.turn_status === false){
                 buttonDisable(true);
                 consoleCombat('Ваш ход отправлен. Ждем хода противника...')
-                healthUpdate(combat.you.health, combat.enemy.health);  
-                return waitForTurn(combatId, userToken) 
+                healthUpdate(combat.you.health, combat.enemy.health);
+                return waitForTurn(combatId, userToken)
             }
 
             if(combat.turn_status === true){
@@ -90,7 +90,7 @@ function waitForTurn(combatId, userToken){
             setTimeout(() => {
                 return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
                     .then(parsedResponse => {
-                        healthUpdate(parsedResponse.combat.you.health, parsedResponse.combat.enemy.health);  
+                        healthUpdate(parsedResponse.combat.you.health, parsedResponse.combat.enemy.health);
                         setCombatObject(parsedResponse.combat);
                         if(parsedResponse.combat.status === 'finished'){
                             consoleCombat('Битва окончена. У вас осталось ' + parsedResponse.combat.you.health + ' HP.');
@@ -117,17 +117,17 @@ function waitForTurn(combatId, userToken){
                     .catch(reason => {
                         console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason);
                         //TODO: Добавить логику на сломанный apiRequest();
-                })
+                    })
             }, 1000);
         }
-        timeout();     
+        timeout();
     });
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     const photoCount = 8;
     var combat = getCombatObject();
-    var user = getUser();
+    var user = userData.get();
     var myUsername = combat.you.username;// "ME";
     var enemyUsername = combat.enemy.username; //"ENEMY";
 
@@ -151,7 +151,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     ph2.width = 337;
     ph2.height = 475;
-    
+
     //document.getElementById('health2').textContent = apiAnswer.combat.enemy.health;
     //document.getElementById('health1').textContent = apiAnswer.combat.you.health;
 

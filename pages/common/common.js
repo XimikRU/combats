@@ -14,22 +14,11 @@
             headers: {'content-type': 'application/x-www-form-urlencoded'},
             body
         })
-        .then(handleErrors)
-        .then(response => response.json())
+            .then(handleErrors)
+            .then(response => response.json())
     }
 
-    function setUser(userObj) {
-        localStorage.setItem('user', JSON.stringify(userObj))
-        return true;
-    }
 
-    function getUser() {
-        var userObj = localStorage.getItem('user');
-        if (userObj)
-            return JSON.parse(userObj);
-        else
-            return null;
-    }
 
     function setCombatObject(combatObj) {
         localStorage.setItem('combat', JSON.stringify(combatObj));
@@ -44,37 +33,12 @@
             return null;
     }
 
-    function clearLocalStorage() {
-        localStorage.removeItem('user');
-        localStorage.removeItem('combat');
-        return true;
-    }
 
-    function whoAmI() {
-        return new Promise((resolve, reject) => {
-            var localUser;
-            if (localUser = getUser()) {
-                apiRequest(`/whoami?token=${localUser.token}`)
-                    .then(apiAnswer => {
-                        if (apiAnswer.status === 'ok') {
-                            resolve(apiAnswer);
-                        } else {
-                            reject('WhoAmi.status != OK; ');
-                        }
-                    })
-                    .catch(reason => {
-                        reject('whoAmiAPI error; ' + reason);
-                    });
-            }
-            else{
-                reject('Cant getUser(); ');
-            }
-        });
-    }
+
 
     function showProfile(event){
         var user_id = event.target.dataset.user;
-        var token = getUser().token;
+        var token = userData.get().token;
         return getUserInfo(user_id, token)
             .then(apiAnswer => {
                 fillProfile(apiAnswer.user, apiAnswer.combats);
@@ -91,7 +55,7 @@
                     } else {
                         reject('getUserInfo.status != OK; ');
                     }
-                })  
+                })
                 .catch(reason => {
                     reject('/Info req error; ' + reason);
                 });
@@ -135,20 +99,15 @@
     function checkCombatStatus(userToken, combatId){
         return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
             .then(apiAnswer => { return apiAnswer; })
-            .catch(reason => { console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason); }) 
-    }
-
-    function logOut(){
-        if(clearLocalStorage())
-            window.location = '/login/';
+            .catch(reason => { console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason); })
     }
 
     function showMessage(message) {
         var newDiv = document.createElement("P");
         var newContent;
-        if (message.status && message.statusText) 
+        if (message.status && message.statusText)
             newContent = document.createTextNode("status: " + message.status + " " + message.statusText);
-        else 
+        else
             newContent = document.createTextNode(message);
         newDiv.setAttribute("class", "messageDialog showMessage");
         newDiv.appendChild(newContent);
@@ -162,7 +121,7 @@
                 var you = combat.you.health;
                 var enemy = combat.enemy.health;
 
-                you > enemy ? victories++ : 
+                you > enemy ? victories++ :
                     you < enemy ? defeats++ : draws++;
             }
         });
@@ -175,10 +134,10 @@
         combats.forEach(combat => {
             var you, enemy;
             if ((combat.you) && (combat.enemy)){
-            you = combat.you.health;
-            enemy = combat.enemy.health;
-            you > enemy ? victories++ : 
-                you < enemy ? defeats++ : draws++;
+                you = combat.you.health;
+                enemy = combat.enemy.health;
+                you > enemy ? victories++ :
+                    you < enemy ? defeats++ : draws++;
             }
         });
         var vdd = {victories: victories, defeats: defeats, draws: draws};
@@ -187,19 +146,14 @@
 
     window.handleErrors = handleErrors;
     window.apiRequest = apiRequest;
-    window.setUser = setUser;
-    window.getUser = getUser;
     window.setCombatObject = setCombatObject;
     window.getCombatObject = getCombatObject;
-    window.whoAmI = whoAmI;
-    window.clearLocalStorage = clearLocalStorage;
     window.fillProfile = fillProfile;
     window.getUserInfo = getUserInfo;
     window.hideUserProfile = hideUserProfile;
     window.getOnline = getOnline;
     window.addList = addList;
     window.checkCombatStatus = checkCombatStatus;
-    window.logOut = logOut;
     window.showMessage = showMessage;
     window.showProfile = showProfile;
     window.vddCalculate = vddCalculate;

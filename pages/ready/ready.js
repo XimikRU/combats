@@ -16,9 +16,9 @@ function goFight() {
 }
 
 function waitForCombat(userToken, combatId) {
-        var i = 0;
-        function update(){
-            setTimeout(() => { 
+    var i = 0;
+    function update(){
+        setTimeout(() => {
             checkCombatStatus(userToken, combatId)
                 .then(apiAnswer => {
                     if(apiAnswer.combat.status === 'progress'){
@@ -29,8 +29,8 @@ function waitForCombat(userToken, combatId) {
                         buttonFight.value = "ПРОТИВНИК!";
                         buttonFight.onclick = function(){
                             window.location="/fight";
-                        }; 
-                         // EOF InterfaceUpdate()
+                        };
+                        // EOF InterfaceUpdate()
                         return apiAnswer.combat.status;
                     }
                     if(apiAnswer.combat.status === 'pending'){
@@ -39,9 +39,9 @@ function waitForCombat(userToken, combatId) {
                         update();
                     }
                 })
-            }, 1000);
-        }
-        update();        
+        }, 1000);
+    }
+    update();
 }
 
 // TODO:
@@ -49,12 +49,12 @@ function currentProfile(localUser){
     return new Promise((resolve, reject) => {
         getUserInfo(localUser.id, localUser.token)
             .then(apiAnswer => {
-                    // Подсчет побед/пораж/ничей
-                    if(apiAnswer.combats.length > 0)
-                        var vdd = vddCalculate(apiAnswer.combats);
-                    else
-                        var vdd = {victories: 0, defeats: 0, draws: 0};
-                    var out = `
+                // Подсчет побед/пораж/ничей
+                if(apiAnswer.combats.length > 0)
+                    var vdd = vddCalculate(apiAnswer.combats);
+                else
+                    var vdd = {victories: 0, defeats: 0, draws: 0};
+                var out = `
                     <li> Username: ${localUser.username} </li>
                     <li> Id: ${localUser.id} </li>
                     <li> Combats: ${apiAnswer.combats.length} </li>
@@ -62,36 +62,36 @@ function currentProfile(localUser){
                     <li> Defeats: ${vdd.defeats} </li>
                     <li> Draws: ${vdd.draws} </li>
                     `;
-                    if(apiAnswer.combats.length > 0)
-                        out += `<li>Status: ${apiAnswer.combats[apiAnswer.combats.length-1].status}</li>`;
-                    out += `<li onclick="logOut()" style="float:right">Logout </li>`;
-                    document.querySelector('.current-profile').innerHTML += out;
-            })  
+                if(apiAnswer.combats.length > 0)
+                    out += `<li>Status: ${apiAnswer.combats[apiAnswer.combats.length-1].status}</li>`;
+                out += `<li onclick="userData.logOut()" style="float:right">Logout </li>`;
+                document.querySelector('.current-profile').innerHTML += out;
+            })
             .catch(reason => {
                 reject('/Info req error; ' + reason);
             });
     });
-    
+
 }
 
 function checkCurrentCombat(userId, userToken){
     return new Promise((resolve, reject) => {
-    getUserInfo(userId, userToken)
-        .then(apiAnswer => {
-            if(apiAnswer.combats.length > 0){
-            var lastCombatStatus = apiAnswer.combats[apiAnswer.combats.length-1].status;
-            var lastCombat = apiAnswer.combats[apiAnswer.combats.length-1];
-                if(lastCombatStatus !== 'finished')
-                {
-                    setCombatObject(lastCombat);
-                    waitForCombat(userToken, lastCombat.id);
-                    // resolve()?
+        getUserInfo(userId, userToken)
+            .then(apiAnswer => {
+                if(apiAnswer.combats.length > 0){
+                    var lastCombatStatus = apiAnswer.combats[apiAnswer.combats.length-1].status;
+                    var lastCombat = apiAnswer.combats[apiAnswer.combats.length-1];
+                    if(lastCombatStatus !== 'finished')
+                    {
+                        setCombatObject(lastCombat);
+                        waitForCombat(userToken, lastCombat.id);
+                        // resolve()?
+                    }
                 }
-            }
-        })
+            })
     });
 }
- 
+
 window.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.btn-fight').addEventListener('click', () => {
         goFight();
@@ -100,17 +100,17 @@ window.addEventListener('DOMContentLoaded', function() {
     getOnline()
         .then(addList);
 
-    whoAmI()
-        .then(result => { 
+    userData.whoAmI()
+        .then(result => {
             window.localUser = result.user;
             currentProfile(localUser);
             if(getCombatObject())
-                waitForCombat(localUser.token, getCombatObject().id); 
+                waitForCombat(localUser.token, getCombatObject().id);
             else
                 checkCurrentCombat(localUser.id, localUser.token)
         })
         .catch(reason => {
             alert('No local user' + reason);
-            logOut();
-        })   
+            userData.logOut();
+        })
 });
