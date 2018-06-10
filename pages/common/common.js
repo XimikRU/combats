@@ -1,4 +1,6 @@
-(function() {
+(function () {
+    //var userListData = new UserListData();
+
     function handleErrors(response) {
         if (response.status === 403) {
             showMessage('forbidden');
@@ -34,32 +36,14 @@
     }
 
 
-
-
     function showProfile(event){
         var user_id = event.target.dataset.user;
         var token = userData.get().token;
-        return getUserInfo(user_id, token)
+        return userListData.getUserInfo(user_id, token)
             .then(apiAnswer => {
                 fillProfile(apiAnswer.user, apiAnswer.combats);
             })
             .catch(reason => {console.error('getUserInfo err: ' + reason);})
-    }
-
-    function getUserInfo(user_id, token){
-        return new Promise((resolve, reject) => {
-            apiRequest(`/info?token=${localUser.token}&user_id=${user_id}`)
-                .then(apiAnswer => {
-                    if (apiAnswer.status === 'ok' && apiAnswer.user) {
-                        resolve(apiAnswer);
-                    } else {
-                        reject('getUserInfo.status != OK; ');
-                    }
-                })
-                .catch(reason => {
-                    reject('/Info req error; ' + reason);
-                });
-        });
     }
 
     function fillProfile(user, combats) {
@@ -82,17 +66,12 @@
         document.getElementsByClassName("parange")[0].style.display = 'none';
     }
 
-    function getOnline() {
-        return apiRequest('/online')
-            .then(apiAnswer => { return apiAnswer.users; })
-            .catch(reason => { return []; });
-    }
-
     function addList(userList) {
+        var listElement = document.querySelector('.nav-ul');
+        listElement.innerHTML = "";
         var liUserList = userList.map(item => {
             return `<li><a data-user='${item.id}'>${item.username}</a></li>`;
         });
-        var listElement = document.querySelector('.nav-ul');
         listElement.innerHTML += liUserList.join('');
     }
 
@@ -149,9 +128,7 @@
     window.setCombatObject = setCombatObject;
     window.getCombatObject = getCombatObject;
     window.fillProfile = fillProfile;
-    window.getUserInfo = getUserInfo;
     window.hideUserProfile = hideUserProfile;
-    window.getOnline = getOnline;
     window.addList = addList;
     window.checkCombatStatus = checkCombatStatus;
     window.showMessage = showMessage;

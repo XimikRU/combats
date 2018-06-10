@@ -47,7 +47,7 @@ function waitForCombat(userToken, combatId) {
 // TODO:
 function currentProfile(localUser){
     return new Promise((resolve, reject) => {
-        getUserInfo(localUser.id, localUser.token)
+        userListData.getUserInfo(localUser.id, localUser.token)
             .then(apiAnswer => {
                 // Подсчет побед/пораж/ничей
                 if(apiAnswer.combats.length > 0)
@@ -76,19 +76,18 @@ function currentProfile(localUser){
 
 function checkCurrentCombat(userId, userToken){
     return new Promise((resolve, reject) => {
-        getUserInfo(userId, userToken)
-            .then(apiAnswer => {
-                if(apiAnswer.combats.length > 0){
-                    var lastCombatStatus = apiAnswer.combats[apiAnswer.combats.length-1].status;
-                    var lastCombat = apiAnswer.combats[apiAnswer.combats.length-1];
-                    if(lastCombatStatus !== 'finished')
-                    {
-                        setCombatObject(lastCombat);
-                        waitForCombat(userToken, lastCombat.id);
-                        // resolve()?
-                    }
+        userListData.getUserInfo(userId, userToken)
+        .then(apiAnswer => {
+            if(apiAnswer.combats.length > 0){
+            var lastCombatStatus = apiAnswer.combats[apiAnswer.combats.length-1].status;
+            var lastCombat = apiAnswer.combats[apiAnswer.combats.length-1];
+                if(lastCombatStatus !== 'finished')
+                {
+                    setCombatObject(lastCombat);
+                    waitForCombat(userToken, lastCombat.id);
+                    // resolve()?
                 }
-            })
+            }})
     });
 }
 
@@ -97,8 +96,14 @@ window.addEventListener('DOMContentLoaded', function() {
         goFight();
     });
 
-    getOnline()
+    userListData.getOnline()
         .then(addList);
+    
+    setInterval(function(){
+        userListData.getOnline()
+            .then(addList);
+    }, 5000)
+    
 
     userData.whoAmI()
         .then(result => {
