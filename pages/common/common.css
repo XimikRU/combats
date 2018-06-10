@@ -433,6 +433,10 @@ body {
     transition: color .5s ease, padding .5s ease;
 }
 
+.nav > ul > li > a:hover {
+    cursor: pointer;
+}
+
 
 /**
  * состояние ссылок меню при наведении
@@ -794,6 +798,16 @@ body {
 .nav2 > ul > li:nth-child(7) {
     -webkit-transition: opacity .5s .7s, -webkit-transform .5s .7s;
     transition: opacity .5s .7s, transform .5s .7s;
+}
+
+.nav2 > ul > li:last-child {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav2 > ul > li:last-child:hover {
+    cursor: pointer;
+    color: #fafafa;
 }
 
 
