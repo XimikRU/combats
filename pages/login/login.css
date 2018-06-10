@@ -4,13 +4,7 @@
     font-family: 'FontAwesome', sans-serif;
 }
 
-/* ---------- GENERAL ---------- */
-
-* {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
+*,
 *:before,
 *:after {
     -moz-box-sizing: border-box;
@@ -19,8 +13,6 @@
 
 body {
     background: #2c3338;
-    color: #606468;
-    font: 87.5%/1.5em 'Open Sans', sans-serif;
     margin: 0;
 }
 
@@ -31,9 +23,8 @@ input {
     line-height: 1.5em;
 }
 
-p {
-    line-height: 1.5em;
-}
+
+/* ---------- LOGIN ---------- */
 
 .container {
     left: 50%;
@@ -43,8 +34,6 @@ p {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-
-/* ---------- LOGIN ---------- */
 
 .login {
     width: 280px;
@@ -62,7 +51,7 @@ p {
     width: 50px;
 }
 
-.inp-username{
+.inp-password, .inp-username{
     height: 50px;
     background-color: #3b4148;
     border-radius: 0px 3px 3px 0px;
@@ -72,18 +61,7 @@ p {
     width: 230px;
 }
 
-.inp-password{
-    height: 50px;
-    background-color: #3b4148;
-    border-radius: 0px 3px 3px 0px;
-    color: white;
-    margin-bottom: 1em;
-    padding: 0 16px;
-    width: 230px;
-}
-
-.btn-login {
-    
+.btn-login, .btn-registr {
     height: 50px;
     border-radius: 3px;
     background-color: #4c64ea;
@@ -92,19 +70,6 @@ p {
     margin-bottom: 2em;
     text-transform: uppercase;
     width: 138px;
-    
 }
 
-.btn-registr {
-    
-    height: 50px;
-    border-radius: 3px;
-    background-color: #4c64ea;
-    color: #eee;
-    font-weight: bold;
-    margin-bottom: 2em;
-    text-transform: uppercase;
-    width: 138px;
-    
-}
-
+/* ---------- EOF LOGIN ---------- */

@@ -1,72 +1,58 @@
 ﻿<html>
 <head>
+    <link rel="stylesheet" type="text/css" href="/common/common.css" >
     <link rel="stylesheet" href="fight.css">
     <script src="/common/common.js"></script>
     <script src="fight.js"></script>
     <meta charset="UTF-8">
 </head>
-<body>
-<div class="header">
-</div>
 
-<div class="game">
+<body>
+
+<div class="header">
     <div class="name-hp">
         <div class="player" id="1">
-            <p class="player_name" id ="player_name1">name1</p>
-            <div class="health" id="health1">20</div>
+            <p class="player_name" id="player_name1">name1</p>
+            <div class="health1" id="health1"></div>
         </div>
+        vs
         <div class="player" id="2">
-            <p class="player_name" id ="player_name2" >mane2</p>
-            <div class="health" id="health2">34</div>
-        </div>
-    </div>
-</div>
-<div class="player-content">
-    <div class="player1">
-        <img src="photo.jpg" class="photo_player1">
-        <div class="radio_buttons">
-            <p >
-                <input name="body_player" type="radio" value="1,2" class="block">Голова
-            </p>
-            <p>
-                <input name="body_player" type="radio" value="2,3" class="block">Грудь
-            </p>
-            <p>
-                <input name="body_player" type="radio" value="3,4" class="block">Пояс
-            </p>
-            <p>
-                <input name="body_player" type="radio" value="4,1" class="block">Ноги
-            </p>
-        </div>
-    </div>
-
-    <div class="player2">
-        <img src="photo.jpg" class="photo_player2">
-        <div class="radio_buttons">
-            <p >
-                <input name="body_player_enemy" type="radio" value="1" class="attack">Голова + Грудь
-            </p>
-            <p>
-                <input name="body_player_enemy" type="radio" value="2" class="attack">Грудь + Пояс
-            </p>
-            <p>
-                <input name="body_player_enemy" type="radio" value="3" class="attack">Пояс + Ноги
-            </p>
-            <p>
-                <input name="body_player_enemy" type="radio" value="4" class="attack">Ноги + Голова
-            </p>
+            <p class="player_name" id="player_name2" >mane2</p>
+            <div class="health2" id="health2"></div>
         </div>
     </div>
 </div>
 
+<div class="content-box">
+    <div class="player1-box">
+        <img class="photo_player1">
+        <div class="radio_buttons1">
+            <p>Защищаем:</p>
+            <p><input name="body_player" type="radio" value="1,2" class="block">Голова + Грудь</p>
+            <p><input name="body_player" type="radio" value="2,3" class="block">Грудь + Пояс</p>
+            <p><input name="body_player" type="radio" value="3,4" class="block">Пояс + Ноги</p>
+            <p><input name="body_player" type="radio" value="4,1" class="block">Ноги + Голова</p>
+            <div class="bump">
+                <p><button class="bump_1 main-btn" onclick="makeMove()">Действие</button></p>
+            </div>
+        </div>
+    </div>
 
-<div class="bump">
-    <button class="bump_button" onclick="makeMove()">Ударить</button>
+    <div class="player2-box">
+        <div class="radio_buttons2">
+            <p>Атакуем:</p>
+            <p><input name="body_player_enemy" type="radio" value="1" class="attack">Голова</p>
+            <p><input name="body_player_enemy" type="radio" value="2" class="attack">Грудь</p>
+            <p><input name="body_player_enemy" type="radio" value="3" class="attack">Пояс</p>
+            <p><input name="body_player_enemy" type="radio" value="4" class="attack">Ноги</p>
+        </div>
+        <img class="photo_player2">
+    </div>
 </div>
+
 
 <div class="history">
-    <textarea class="tablo" id ="3"></textarea>
-    <textarea class="tablo" id ="4"></textarea>
+    <textarea class="console" rows="5" id ="3"></textarea>
 </div>
 
 </body>

@@ -1,7 +1,7 @@
 (function() {
     function handleErrors(response) {
         if (response.status === 403) {
-            window.location = '/login/';
+            showMessage('forbidden');
         }
         if (response.status >= 400)
             return Promise.reject(response);
@@ -15,7 +15,7 @@
             body
         })
         .then(handleErrors)
-        .then(response => response.text());
+        .then(response => response.json())
     }
 
     function setUser(userObj) {
@@ -31,8 +31,8 @@
             return null;
     }
 
-    function setCombatObject(combatJSON) {
-        localStorage.setItem('combat', combatJSON);
+    function setCombatObject(combatObj) {
+        localStorage.setItem('combat', JSON.stringify(combatObj));
         return true;
     }
 
@@ -56,16 +56,14 @@
             if (localUser = getUser()) {
                 apiRequest(`/whoami?token=${localUser.token}`)
                     .then(apiAnswer => {
-                        parsedAnswer = JSON.parse(apiAnswer);
-                        if (parsedAnswer.status === 'ok') {
-                            console.log('WhoAmIed(); ');
-                            resolve(parsedAnswer);
+                        if (apiAnswer.status === 'ok') {
+                            resolve(apiAnswer);
                         } else {
                             reject('WhoAmi.status != OK; ');
                         }
                     })
                     .catch(reason => {
-                        reject('whoAmiAPI req error; ' + reason);
+                        reject('whoAmiAPI error; ' + reason);
                     });
             }
             else{
@@ -74,6 +72,120 @@
         });
     }
 
+    function showProfile(event){
+        var user_id = event.target.dataset.user;
+        var token = getUser().token;
+        return getUserInfo(user_id, token)
+            .then(apiAnswer => {
+                fillProfile(apiAnswer.user, apiAnswer.combats);
+            })
+            .catch(reason => {console.error('getUserInfo err: ' + reason);})
+    }
+
+    function getUserInfo(user_id, token){
+        return new Promise((resolve, reject) => {
+            apiRequest(`/info?token=${localUser.token}&user_id=${user_id}`)
+                .then(apiAnswer => {
+                    if (apiAnswer.status === 'ok' && apiAnswer.user) {
+                        resolve(apiAnswer);
+                    } else {
+                        reject('getUserInfo.status != OK; ');
+                    }
+                })  
+                .catch(reason => {
+                    reject('/Info req error; ' + reason);
+                });
+        });
+    }
+
+    function fillProfile(user, combats) {
+        var vdd = vddPersonal(combats);
+        document.getElementsByClassName("user_name")[0].innerHTML = "";
+        document.querySelector(".victories").innerHTML = "";
+        document.getElementsByClassName("battleCount")[0].innerHTML = "";
+        document.getElementsByClassName("lastStatus")[0].innerHTML = "";
+
+        document.getElementsByClassName("user_name")[0].innerHTML = user.username;
+        document.querySelector(".victories").innerHTML = vdd.victories;
+        document.getElementsByClassName("parange")[0].style.display = 'block';
+        document.getElementsByClassName("battleCount")[0].innerHTML = combats.length;
+        if(combats.length > 0){
+            document.getElementsByClassName("lastStatus")[0].innerHTML = combats[combats.length-1].status;
+        }
+    }
+
+    function hideUserProfile() {
+        document.getElementsByClassName("parange")[0].style.display = 'none';
+    }
+
+    function getOnline() {
+        return apiRequest('/online')
+            .then(apiAnswer => { return apiAnswer.users; })
+            .catch(reason => { return []; });
+    }
+
+    function addList(userList) {
+        var liUserList = userList.map(item => {
+            return `<li><a data-user='${item.id}'>${item.username}</a></li>`;
+        });
+        var listElement = document.querySelector('.nav-ul');
+        listElement.innerHTML += liUserList.join('');
+    }
+
+    function checkCombatStatus(userToken, combatId){
+        return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
+            .then(apiAnswer => { return apiAnswer; })
+            .catch(reason => { console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason); }) 
+    }
+
+    function logOut(){
+        if(clearLocalStorage())
+            window.location = '/login/';
+    }
+
+    function showMessage(message) {
+        var newDiv = document.createElement("P");
+        var newContent;
+        if (message.status && message.statusText) 
+            newContent = document.createTextNode("status: " + message.status + " " + message.statusText);
+        else 
+            newContent = document.createTextNode(message);
+        newDiv.setAttribute("class", "messageDialog showMessage");
+        newDiv.appendChild(newContent);
+        document.body.appendChild(newDiv);
+    }
+
+    function vddCalculate(combats){
+        var victories = 0, defeats = 0, draws = 0;
+        combats.forEach(combat => {
+            if ((combat.you) && (combat.enemy)){
+                var you = combat.you.health;
+                var enemy = combat.enemy.health;
+
+                you > enemy ? victories++ : 
+                    you < enemy ? defeats++ : draws++;
+            }
+        });
+        var vdd = {victories: victories, defeats: defeats, draws: draws};
+        return vdd;
+    }
+
+    function vddPersonal(combats){
+        var victories = 0, defeats = 0, draws = 0;
+        combats.forEach(combat => {
+            var you, enemy;
+            if ((combat.you) && (combat.enemy)){
+            you = combat.you.health;
+            enemy = combat.enemy.health;
+            you > enemy ? victories++ : 
+                you < enemy ? defeats++ : draws++;
+            }
+        });
+        var vdd = {victories: victories, defeats: defeats, draws: draws};
+        return vdd;
+    }
+
+    window.handleErrors = handleErrors;
     window.apiRequest = apiRequest;
     window.setUser = setUser;
     window.getUser = getUser;
@@ -81,4 +193,15 @@
     window.getCombatObject = getCombatObject;
     window.whoAmI = whoAmI;
     window.clearLocalStorage = clearLocalStorage;
+    window.fillProfile = fillProfile;
+    window.getUserInfo = getUserInfo;
+    window.hideUserProfile = hideUserProfile;
+    window.getOnline = getOnline;
+    window.addList = addList;
+    window.checkCombatStatus = checkCombatStatus;
+    window.logOut = logOut;
+    window.showMessage = showMessage;
+    window.showProfile = showProfile;
+    window.vddCalculate = vddCalculate;
+    window.vddPersonal = vddPersonal;
 })();

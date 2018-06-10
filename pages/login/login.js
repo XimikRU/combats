@@ -1,48 +1,36 @@
-function registerUser() {
+function registerUser(username, password) {
     return new Promise((resolve, reject) => {
-        var username = document.querySelector('.inp-username').value;
-        var password = document.querySelector('.inp-password').value;
         apiRequest('/register', {
                 method: 'POST',
                 body: `username=${username}&password=${password}`
             })
             .then(apiAnswer => {
-                var parsedAnswer = JSON.parse(apiAnswer);
-                console.log('Reg:');console.log(parsedAnswer);
-                if (parsedAnswer.status === 'ok') {
-                    var userObj = parsedAnswer.user;
-                    if(setUser(userObj)){
-                        resolve(parsedAnswer);
+                if (apiAnswer.status === 'ok' && apiAnswer.user) {
+                    if(setUser(apiAnswer.user)){
+                        resolve(apiAnswer.user);
                     }
                     else{
-                        reject('Cant setUser(); ')
+                        reject('Cant setUser();')
                     }
                 }
                 else{
-                    reject('parsedAnswerRegister.status != OK; ');
+                    reject('parsedAnswerRegister.status != OK;');
                 }
             })
-            .catch(reason => {
-                reject('RegisterAPI request error: ' + reason);
-            });
+            .catch(reason => reject(reason));
     });
 }
 
-function loginUser() {
+function loginUser(username, password) {
     return new Promise((resolve, reject) => {
-        var username = document.querySelector('.inp-username').value;
-        var password = document.querySelector('.inp-password').value;
         apiRequest('/login', {
                 method: 'POST',
                 body: `username=${username}&password=${password}`
             })
             .then(apiAnswer => {
-                var parsedAnswer = JSON.parse(apiAnswer);
-                console.log('login: ');console.log(parsedAnswer);
-                if (parsedAnswer.status === 'ok') {
-                    var userObj = parsedAnswer.user;
-                    if(setUser(userObj)){
-                        resolve(parsedAnswer);
+                if (apiAnswer.status === 'ok' && apiAnswer.user) {
+                    if(setUser(apiAnswer.user)){
+                        resolve(apiAnswer.user);
                     }
                     else{
                         reject('Cant setUser(); ');
@@ -52,32 +40,29 @@ function loginUser() {
                     reject('LoginAnswer.status != ok; ');
                 }       
             })
-            .catch(reason => reject('LoginAPI request error; ' + reason));
+            .catch(reason => reject(reason));
     });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.btn-registr').addEventListener('click', () => {
-        registerUser()
+        var username = document.querySelector('.inp-username').value;
+        var password = document.querySelector('.inp-password').value;
+        registerUser(username, password)
             .then(result => {
-                loginUser()
-                    .then(result => {alert('reg-login'); window.location = '/ready/';})
-                    .catch(reason => console.log('onclick: ' + reason))
-                }
-            )
-            .catch(reason => {
-                console.log('onclick reg: ' + reason);
-            })
-
+                loginUser(username, password)
+                    .then(result => {window.location = '/ready/';})
+                    .catch(reason => showMessage(reason));
+                })
+            .catch(reason => showMessage(reason));
     });
 
     document.querySelector('.btn-login').addEventListener('click', () => {
-        loginUser()
-            .then(() => {
-                alert('login');
-                window.location = '/ready/';
-            })
-            .catch(reason => console.log('onclick log: ' + reason))
+        var username = document.querySelector('.inp-username').value;
+        var password = document.querySelector('.inp-password').value;
+        loginUser(username, password)
+            .then(result => {window.location = '/ready/';})
+            .catch(reason => showMessage(reason));
     });
 });
 
