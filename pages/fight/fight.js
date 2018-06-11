@@ -1,4 +1,3 @@
-
 window.addEventListener("DOMContentLoaded", () => {
     const photoCount = 8;
     var combat = combatsData.getCombatObject();

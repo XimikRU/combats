@@ -23,7 +23,7 @@ class UserData {
         return new Promise((resolve, reject) => {
             var localUser;
             if (localUser = this.get()) {
-                apiRequest(`/whoami?token=${localUser.token}`)
+                utils.apiRequest(`/whoami?token=${localUser.token}`)
                     .then(apiAnswer => {
                         if (apiAnswer.status === 'ok') {
                             resolve(apiAnswer);
@@ -48,7 +48,7 @@ class UserData {
 
     registerUser(username, password) {
         return new Promise((resolve, reject) => {
-            apiRequest('/register', {
+            utils.apiRequest('/register', {
                 method: 'POST',
                 body: `username=${username}&password=${password}`
             })
@@ -71,7 +71,7 @@ class UserData {
 
     loginUser(username, password) {
         return new Promise((resolve, reject) => {
-            apiRequest('/login', {
+            utils.apiRequest('/login', {
                 method: 'POST',
                 body: `username=${username}&password=${password}`
             })

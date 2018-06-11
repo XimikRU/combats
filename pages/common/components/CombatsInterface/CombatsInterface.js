@@ -66,7 +66,7 @@ class CombatsInterface{
         return new Promise((resolve, reject) => {
             function timeout(){
                 setTimeout(() => {
-                    return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
+                    return utils.apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
                         .then(parsedResponse => {
                             combatsInterface.healthUpdate(parsedResponse.combat.you.health, parsedResponse.combat.enemy.health);  
                             combatsData.setCombatObject(parsedResponse.combat);

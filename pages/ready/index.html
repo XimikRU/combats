@@ -11,29 +11,29 @@
     <script src="../common/components/chat/chat.js"></script>
     <link rel="stylesheet" href="ready.css">
     <link rel="stylesheet" type="text/css" href="/common/common.css" >
+    <script src="../common/components/Utils/Utils.js"></script>
     <script src="../common/user-list.js"></script>
     <script src="/common/components/combats/CombatsData.js"></script>
     <script src="/common/components/CombatsInterface/CombatsInterface.js"></script>
-
     <script src="../common/components/user/user.js"></script>
     <script src="../common/common.js"></script>
     <script src="ready.js"></script>
 </head>
 
 <body>
-    <input type="checkbox" id="nav-toggle" hidden checked>
-    <nav class="nav">
-        <label for="nav-toggle" class="nav-toggle" onclick></label>
-        <h2 class="logo"><a>Online</a></h2>
-        <ul class="nav-ul" onclick="showProfile(event)"></ul>
-    </nav>
+<input type="checkbox" id="nav-toggle" hidden checked>
+<nav class="nav">
+    <label for="nav-toggle" class="nav-toggle" onclick></label>
+    <h2 class="logo"><a>Online</a></h2>
+    <ul class="nav-ul" onclick="showProfile(event)"></ul>
+</nav>
 
-    <input type="checkbox" id="nav-toggle2" hidden checked>
-    <nav class="nav2">
-        <label for="nav-toggle2" class="nav-toggle2" onclick></label>
-        <h2 class="logo2"><a>Profile</a></h2>
-        <ul class="nav-ul2 current-profile"></ul>
-    </nav>
+<input type="checkbox" id="nav-toggle2" hidden checked>
+<nav class="nav2">
+    <label for="nav-toggle2" class="nav-toggle2" onclick></label>
+    <h2 class="logo2"><a>Profile</a></h2>
+    <ul class="nav-ul2 current-profile"></ul>
+</nav>
 
     <div class="container">
         <div class="login">
@@ -45,31 +45,30 @@
                 let chatWrapper = document.querySelector(".chat-wrapper");
                 let chat = new Chat(chatWrapper);
             </script>
-
         </div>
     </div>
 </div>
 
-    <div class="parange" onclick="hideUserProfile()">
-        <div class="frame">
-            <div class="box">
-                <div class="main">
-                    <p class="user_name" style="font-size:30px;"> </p>
-                   <!--
-                    <input type="button" class="btn-bio" value="В друзья">
-                    <input type="button" class="btn-bio" value="Написать">
-                    -->
-                </div>
+<div class="parange" onclick="hideUserProfile()">
+    <div class="frame">
+        <div class="box">
+            <div class="main">
+                <p class="user_name" style="font-size:30px;"> </p>
+                <!--
+                 <input type="button" class="btn-bio" value="В друзья">
+                 <input type="button" class="btn-bio" value="Написать">
+                 -->
+            </div>
 
-                <div class="posts">
-                    <p class="battleCountTitle">Боев</p>
-                    <p class="battleCount"></p>
-                </div>
+            <div class="posts">
+                <p class="battleCountTitle">Боев</p>
+                <p class="battleCount"></p>
+            </div>
 
-                <div class="likes">
-                    <p class="small">Статус</p>
-                    <p class="lastStatus"></p>
-                </div>
+            <div class="likes">
+                <p class="small">Статус</p>
+                <p class="lastStatus"></p>
+            </div>
 
                 <div class="followers">
                     <p class="small">Победы</p>

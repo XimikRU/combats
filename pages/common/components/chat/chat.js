@@ -70,7 +70,7 @@ class Chat {
 
     sendMessage(text, timestamp, token) {
         this.time = +timestamp;
-        return apiRequest('/chat', { method: 'POST', body: `token=${token}&message=${text}&timestamp=${timestamp}`})
+        return utils.apiRequest('/chat', { method: 'POST', body: `token=${token}&message=${text}&timestamp=${timestamp}`})
             .then(apiAnswer => {
                 if(apiAnswer.status === 'ok' && apiAnswer.chat){
                     // apiAnswer.chat.forEach(item => {
@@ -89,7 +89,7 @@ class Chat {
     }
 
     getMessages(timestamp, token) {
-        return apiRequest(`/chat?token=${token}&timestamp=${timestamp}`, { method: 'GET'})
+        return utils.apiRequest(`/chat?token=${token}&timestamp=${timestamp}`, { method: 'GET'})
             .then(apiAnswer => {
                 if(apiAnswer.status === 'ok' && apiAnswer.chat){
                     apiAnswer.chat.forEach(item => {

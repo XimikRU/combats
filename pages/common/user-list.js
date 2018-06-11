@@ -29,7 +29,7 @@ class UserListData {
     }
 
     getOnline() {
-        return apiRequest('/online')
+        return utils.apiRequest('/online')
             .then(apiAnswer => { 
                 this.execute('update');
                 return apiAnswer.users; 
@@ -40,7 +40,7 @@ class UserListData {
 
     getUserInfo(user_id, token) {
         return new Promise((resolve, reject) => {
-            apiRequest(`/info?token=${localUser.token}&user_id=${user_id}`)
+            utils.apiRequest(`/info?token=${localUser.token}&user_id=${user_id}`)
                 .then(apiAnswer => {
                     if (apiAnswer.status === 'ok' && apiAnswer.user) {
                         this.execute('getUserInfo');

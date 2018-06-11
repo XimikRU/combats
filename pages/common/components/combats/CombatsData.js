@@ -14,7 +14,7 @@ class CombatsData{
     }
 
     goFight() {
-        return apiRequest('/fight', { method: 'POST', body: `token=${localUser.token}` })
+        return utils.apiRequest('/fight', { method: 'POST', body: `token=${localUser.token}` })
             .then(apiAnswer => {
                 if(apiAnswer.status === 'ok' && apiAnswer.combat){
                     this.setCombatObject(apiAnswer.combat);
@@ -90,13 +90,13 @@ class CombatsData{
     }
 
     checkCombatStatus(userToken, combatId){
-        return apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
+        return utils.apiRequest(`/status?token=${userToken}&combat_id=${combatId}`)
             .then(apiAnswer => { return apiAnswer; })
             .catch(reason => { console.error('WaitForBattle.timeout.ApiRequest() error:: ' + reason); }) 
     }
 
     sendMoveRequest(params) {
-        return apiRequest('/turn', {method: 'post', body: params})
+        return utils.apiRequest('/turn', {method: 'post', body: params})
             .then(apiAnswer => { return apiAnswer.combat; })
             .catch(reason => { console.error('sendMoveReq apiReq error::' + reason); })
     }

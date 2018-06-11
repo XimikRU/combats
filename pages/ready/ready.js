@@ -16,7 +16,6 @@ function currentProfile(localUser){
                     <li> Defeats: ${vdd.defeats} </li>
                     <li> Draws: ${vdd.draws} </li>
                     `;
-
                 if(apiAnswer.combats.length > 0)
                     out += `<li>Status: ${apiAnswer.combats[apiAnswer.combats.length-1].status}</li>`;
                 out += `<li onclick="userData.logOut()" style="float:right">Logout </li>`;
@@ -54,7 +53,6 @@ window.addEventListener('DOMContentLoaded', function() {
         })
         .catch(reason => {
             alert('No local user' + reason);
-
             userData.logOut();
         })
 });
